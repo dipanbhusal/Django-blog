@@ -1,0 +1,26 @@
+{%extends 'base.htm' %}
+{%block content%}
+{{comment}}
+<div class="container">
+       <div class="row">
+      <!-- Blog Entries Column -->
+      <div class="col-sm-8 ">
+
+              
+                <form  method="post">
+                  {%csrf_token%}
+                  <p>Are you sure you want to delete "{{object.content}}"? </p>
+                  <input type="submit" value="Delete" class="btn btn-warning" >
+                  <a href="{{object.content_object.get_absolute_url}}"><button class="btn btn-cancel">Cancel</button></a>
+                </form>
+            </div> 
+            
+            <hr/> 
+        
+       
+       </div>
+      </div>
+        
+    </div>
+</div>
+{%endblock content%}

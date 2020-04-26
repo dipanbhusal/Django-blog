@@ -1,0 +1,43 @@
+{%extends 'base.htm' %}
+
+{%block nav%}
+
+{%endblock nav%}
+{%block content%}
+
+
+<div class="container">
+    {%if messages %}
+    {%for message in messages %}
+    {{message}} <br>
+    {%endfor%}
+    {%endif%}
+    <br>
+        <div class="row">
+            {%for post in object_list%}
+            <div class="col-md-4">
+                <div class="single-blog-item">
+                    
+                        <div class="blog-thumnail">
+                                <a href="{%url 'blog:post-detail' post.slug %}"><img class="img-post" src="{{post.image.url}}" alt="blog-img"></a>
+                        </div>
+                        <div class="blog-content">
+                                <h4><a href="{%url 'blog:post-detail' post.slug %}">{{post.title}}</a></h4>By {{post.author}}
+                                <div class=""><p>{{post.content | truncatechars:9}}</p></div>
+                                <a href="{%url 'blog:post-detail' post.slug %}" class="more-btn">View More</a>
+                        </div>
+                            <span class="blog-date">{{post.timestamp}}</span>
+                    
+                </div>
+            
+            </div>
+            {%endfor%}
+        
+                    
+        </div>
+</div>
+
+
+  {%endblock content%}
+
+  

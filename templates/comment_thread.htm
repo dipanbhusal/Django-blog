@@ -1,0 +1,45 @@
+{%extends 'base.htm' %}
+{%block content%}
+{{comment}}
+<div class="container">
+       <div class="row">
+      <!-- Blog Entries Column -->
+      <div class="col-sm-8 ">
+
+        
+        
+        
+
+       
+         
+            
+              <p>{{comment.content}}</p>
+              <footer>- by {{comment.user}} | {{comment.timestamp|timesince}} ago | {%if comment.children.count > 0 %} {{comment.children.count}} Comment{%if comment.children.count > 1 %}s{%endif%}  {%endif%} </footer>
+              <hr />
+              <div  >
+                
+                {%for child_comment in comment.children%}
+                <blockquote>
+                  <p>{{child_comment.content}}</p>
+                  <footer>- by {{child_comment.user}} | {{childcomment.timestamp|timesince}} ago   
+                  </footer>
+                  </blockquote>
+                {%endfor%}
+
+                <form  method="post">
+                  {%csrf_token%}
+                  {{comment_form.as_p}}
+                  <input type='hidden' name ="parent_id" value="{{comment.id}}">
+                  <input type="submit" value="Reply" >
+                </form>
+            </div>
+            
+            <hr/> 
+        
+       
+       </div>
+      </div>
+        
+    </div>
+</div>
+{%endblock content%}
