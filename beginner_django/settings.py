@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'comments',
     #third party
     'pagedown',
-    'markdown_deux',
     'crispy_forms'
 ]
 

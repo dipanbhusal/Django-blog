@@ -1,7 +1,6 @@
 from django.db import models
 from django.urls import reverse 
 from django.utils.text import slugify
-from markdown_deux  import markdown
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from comments.models import Comment
@@ -33,10 +32,7 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('blog:post-detail', kwargs={'post_slug': self.slug})  
 
-    def get_markdown(self):
-        content = self.content
-        return markdown(content)
-
+    
     @property
     def comments(self):
         instance=self 

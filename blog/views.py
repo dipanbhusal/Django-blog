@@ -85,7 +85,7 @@ def PostCreate(request):
     context = {
         'form': form
     }
-    return render(request, 'form.htm', context)
+    return render(request, 'postCreate.htm', context)
 
 def postDelete(request, post_slug):
     queryset = get_object_or_404(Post, slug=post_slug)
