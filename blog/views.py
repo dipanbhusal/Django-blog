@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect 
 from django.http import HttpResponse ,HttpResponseRedirect 
 from django.contrib import messages
+from django.db.models import Q
 from comments.forms import CommentForm
 from comments.models import Comment
 from django.contrib.contenttypes.models import ContentType
@@ -10,11 +11,33 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(request):
     queryset = Post.objects.all()
+    query = request.GET.get('q')
+    if query:
+        queryset = queryset.filter( 
+           Q(title__icontains =query) |
+           Q(content__icontains=query)
+        )
+        if queryset:
+            query_object = queryset
+        else:
+            messages.warning(request, 'Cannot found results')
     context = {
         'object_list' : queryset
     }
-    return render(request, 'index.htm', context) 
+    return render(request, 'index.htm', context)
 
+
+def postList(request ):
+    queryset = Post.objects.all()
+    q = request.GET.get('q')
+    if q:
+        search_result = Post.objects.filter(
+            Q(title__icontains=q) |
+            Q(content__icontains =q) 
+        )
+        return render(request, 'index.htm', {'object_list':search_result})
+
+    
 def postDetail(request, post_slug):
     queryset = get_object_or_404(Post, slug=post_slug)
     comments = queryset.comments 
@@ -56,6 +79,7 @@ def postDetail(request, post_slug):
         'comment_form' : form,
     }
     return render(request, 'post_detail.htm', context)
+    
 @login_required(login_url='/login/')
 def postUpdate(request, post_slug=None):
     queryset = get_object_or_404(Post, slug=post_slug)
@@ -78,18 +102,25 @@ def postUpdate(request, post_slug=None):
 def PostCreate(request):
     form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        form.save()
+        instance = form.save(commit=False)
+        instance.author = request.user 
+        instance.save()
+    
+
         messages.success(request,'Post has been created ')
         return redirect('/')
     
     context = {
         'form': form
     }
-    return render(request, 'postCreate.htm', context)
+    return render(request, 'form.htm', context)
 
+@login_required(login_url='/login/')
 def postDelete(request, post_slug):
     queryset = get_object_or_404(Post, slug=post_slug)
-
-    queryset.delete()
-    messages.success(request,'Post has been deleted ')
+    if queryset.author == request.user:
+        queryset.delete()
+        messages.success(request,'Post has been deleted ')
+    else:
+        return HttpResponse('You are not authorized to delete.')
     return redirect('blog:home')

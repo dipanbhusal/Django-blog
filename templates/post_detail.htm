@@ -36,8 +36,9 @@
         <hr>
 
         <!-- Preview Image -->
+        {%if post.image %}
         <img class="image" src="{{post.image.url|default_if_none:'#'}}" alt="Image for {{post.title}}">
-
+        {%endif %}
         <hr>
         <div class="row">
         <div class="col-sm-8 ">

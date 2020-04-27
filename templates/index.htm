@@ -7,6 +7,7 @@
 
 
 <div class="container">
+    
     {%if messages %}
     {%for message in messages %}
     {{message}} <br>
@@ -19,11 +20,12 @@
                 <div class="single-blog-item">
                     
                         <div class="blog-thumnail">
-                                <a href="{%url 'blog:post-detail' post.slug %}"><img class="img-post" src="{{post.image.url}}" alt="blog-img"></a>
+                                <a href="{%url 'blog:post-detail' post.slug %}">{%if post.image %}<img class="img-post" src="{{post.image.url}}" alt="blog-img"> {%else%}  {%endif%} </a> 
                         </div>
                         <div class="blog-content">
-                                <h4><a href="{%url 'blog:post-detail' post.slug %}">{{post.title}}</a></h4>By {{post.author}}
+                                <h4><a href="{%url 'blog:post-detail' post.slug %}">{{post.title}}</a></h4>
                                 <div class=""><p>{{post.content | truncatechars:9}}</p></div>
+                                <div class="">By {{post.author }}</div>
                                 <a href="{%url 'blog:post-detail' post.slug %}" class="more-btn">View More</a>
                         </div>
                             <span class="blog-date">{{post.timestamp}}</span>

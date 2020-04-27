@@ -30,6 +30,7 @@ urlpatterns = [
     path('register/', register_view , name='register'), 
     path('', include(urls, namespace='blog')),
     path('comments/', include('comments.urls', namespace='comments')),
+    path('api/posts/', include('blog.api.urls', namespace = 'blog-api')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,document_root =settings.STATIC_ROOT )

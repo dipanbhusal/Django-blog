@@ -7,14 +7,17 @@ from comments.models import Comment
 from .utils import get_read_time
 # Create your models here.
 class Post(models.Model):
-    author = models.ForeignKey(User, default = 1 , on_delete=models.CASCADE )
-    title = models.CharField(max_length=100)
+    author = models.ForeignKey(User,  on_delete=models.CASCADE )
+    title = models.CharField(max_length=100)  
     image = models.ImageField(
-            upload_to="blog_images/"
+            upload_to="blog_images/",
+            blank=True,
+            null=True 
             ) 
     content = models.TextField()
     updated = models.DateTimeField(auto_now  = True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now =False, auto_now_add=True)
+    published = models.DateField(auto_now_add=True, null = True, blank =True ) 
     slug = models.SlugField(blank=True, null=True)
     read_time = models.IntegerField(default=0)
     def save(self, *args, **kwargs):
@@ -22,7 +25,7 @@ class Post(models.Model):
             self.slug = slugify(self.title)
 
         if self.content:
-            html_string = self.get_markdown()
+            html_string = self.content 
             read_time = get_read_time(html_string)
             self.read_time  = read_time 
         super(Post, self).save(*args, **kwargs)
@@ -44,4 +47,3 @@ class Post(models.Model):
         instance = self 
         content_type = ContentType.objects.get_for_model(instance.__class__).model
         return content_type 
-

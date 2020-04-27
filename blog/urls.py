@@ -4,6 +4,7 @@ from .views import home, postDetail, PostCreate,postUpdate, postDelete
 app_name ='blog'
 urlpatterns = [
     path('', home, name ='home' ),
+    # path('search/', search, name ='search' ),
     path('create/', PostCreate, name ='create' ),
     path('post/<slug:post_slug>', postDetail, name ='post-detail'),
     path('post/<slug:post_slug>/update/', postUpdate, name ='post-update'),
