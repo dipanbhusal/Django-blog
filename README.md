@@ -1,4 +1,4 @@
-A blog made with Django, bootstrap. More improvements are yet to come. 
+A blog made with Django, bootstrap. It have functionalities like readtime count, post comment, reply to comment,REST API support.  More improvements are yet to come. 
 Install virtual environment
 
     $ sudo apt install python-virtualenv
