@@ -10,6 +10,10 @@ django-rest-auth==0.9.5
 djangorestframework==3.11.0
 gunicorn==20.0.4
 idna==2.8
+<<<<<<< HEAD
+=======
+
+>>>>>>> a40902d1d55047333f61f0a39b809d604cc71dbe
 Pillow==7.0.0
 
 
